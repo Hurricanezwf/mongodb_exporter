@@ -46,7 +46,7 @@ type GlobalFlags struct {
 	WebTelemetryPath      string   `name:"web.telemetry-path" help:"Metrics expose path" default:"/metrics"`
 	TLSConfigPath         string   `name:"web.config" help:"Path to the file having Prometheus TLS config for basic auth"`
 	TimeoutOffset         int      `name:"web.timeout-offset" help:"Offset to subtract from the request timeout in seconds" default:"1"`
-	LogLevel              string   `name:"log.level" help:"Only log messages with the given severity or above. Valid levels: [debug, info, warn, error, fatal]" enum:"debug,info,warn,error,fatal" default:"error"`
+	LogLevel              string   `name:"log.level" help:"Only log messages with the given severity or above. Valid levels: [debug, info, warn, error, fatal]" enum:"debug,info,warn,error,fatal" default:"info"`
 	ConnectTimeoutMS      int      `name:"mongodb.connect-timeout-ms" help:"Connection timeout in milliseconds" default:"5000"`
 
 	EnableExporterMetrics    bool `name:"collector.exporter-metrics" help:"Enable collecting metrics about the exporter itself (process_*, go_*)" negatable:"" default:"True"`
@@ -125,13 +125,16 @@ func main() {
 		opts.TimeoutOffset = 1
 	}
 
-	serverOpts := &exporter.ServerOpts{
-		Path:             opts.WebTelemetryPath,
-		MultiTargetPath:  "/scrape",
-		WebListenAddress: opts.WebListenAddress,
-		TLSConfigPath:    opts.TLSConfigPath,
-	}
-	exporter.RunWebServer(serverOpts, buildServers(opts, log), log)
+	//serverOpts := &exporter.ServerOpts{
+	//	Path:             opts.WebTelemetryPath,
+	//	MultiTargetPath:  "/scrape",
+	//	WebListenAddress: opts.WebListenAddress,
+	//	TLSConfigPath:    opts.TLSConfigPath,
+	//}
+	//exporter.RunWebServer(serverOpts, buildServers(opts, log), log)
+
+	// BY ZWF
+	HTTPListenAndServ(opts, log)
 }
 
 func buildExporter(opts GlobalFlags, uri string, log *logrus.Logger) *exporter.Exporter {
