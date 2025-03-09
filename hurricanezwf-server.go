@@ -60,6 +60,7 @@ func handleProbe(log *logrus.Logger, flags GlobalFlags) func(w http.ResponseWrit
 		}
 		// Note: 如果没有用户名和密码, 则使用默认账户;
 		uri := buildURI(target, flags.User, flags.Password)
+		log.Debug("probe target `", uri, "`")
 
 		exporterOpts := expoterOptsFrom(flags, log, uri)
 		mongocli, err := newMongoClient(r.Context(), exporterOpts)
