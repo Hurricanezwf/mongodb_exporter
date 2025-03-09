@@ -48,7 +48,6 @@ func handleProbe(log *logrus.Logger, flags GlobalFlags) func(w http.ResponseWrit
 		// 从 query 参数中解析探测目标;
 		params := r.URL.Query()
 		target := params.Get("target")
-		target = strings.TrimPrefix(strings.TrimPrefix(target, "http://"), "https://")
 		if target == "" {
 			http.Error(w, "target is required", http.StatusBadRequest)
 			return
