@@ -2,7 +2,7 @@
 
 set -e
 
-export CGO_ENABLED=false
+export CGO_ENABLED=0
 
 rm -rf ./bin/
 mkdir -p ./bin/
